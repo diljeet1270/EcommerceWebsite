@@ -1,22 +1,29 @@
-const { env } = require("process");
-const app = require("./app");
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const indexRouter = require("./routes/index");
+const app = express();
+const cors = require ('cors');
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const dotenv = require("dotenv");
-const connectDatabase = require("./config/database")
+const DB =
+  "mongodb+srv://diljeet:Spell1144@cluster0.lne8q4b.mongodb.net/?retryWrites=true&w=majority";
+mongoose
+  .connect(DB)
+  .then(() => {
+    console.log("connection successfull");
+  })
+  .catch((err) => console.log("no connection"));
 
+app.get("/", (req, res) => {
+  res.json({ success: true });
+});
 
-// Config
+app.use("/api", indexRouter);
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 
-dotenv.config({path:"backend/config/config.env"});
-
-
-
-// Connecting to Database
-connectDatabase()
-
-
-
-app.listen(process.env.PORT,()=>{
-
-console.log(`Server is working on http://localhost:${process/env.PORT}`)
-})
