@@ -1,7 +1,8 @@
 const Product = require("../models/productmodel");
+const express = require("express")
+const app = express();
 
-
-// Create Product 
+// Create Product -- Admin
 const createProduct = async (req,res)=>{
 try {
     console.log("The body", req.body);
@@ -15,6 +16,14 @@ try {
     return res.status(403).json(error);
   }
 };
+
+
+//Get all product
+
+
+
+
+
 module.exports = {
     createProduct
 }
